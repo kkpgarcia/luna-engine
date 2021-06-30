@@ -1,0 +1,17 @@
+{
+  "name": "luna-engine",
+  "version": "0.0.12",
+  "description": "WebGL2 based game engine",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "deploy": "npm publish --registry http://localhost:4873",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kyle Garcia - kkpgarcia@gmail.com",
+  "license": "ISC"
+}
