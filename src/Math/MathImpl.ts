@@ -5,42 +5,22 @@ export default class MathImpl
 {
     public static Add(num_a: number[], num_b: number[]): number[]
     {
-        for (let i = 0; i < num_a.length; i++)
-        {
-            num_a[i] = num_a[i] + num_b[i];
-        }
-
-        return num_a;
+        return MathImpl.Operator(num_a, num_b, (a, b) => a + b);
     }
 
     public static Subtract(num_a: number[], num_b: number[]): number[]
     {
-        for (let i = 0; i < num_a.length; i++)
-        {
-            num_a[i] = num_a[i] - num_b[i];
-        }
-
-        return num_a;
+        return MathImpl.Operator(num_a, num_b, (a, b) => a - b);
     }
 
     public static Multiply(num_a: number[], num_b: number[]): number[]
     {
-        for (let i = 0; i < num_a.length; i++)
-        {
-            num_a[i] = num_a[i] * num_b[i];
-        }
-
-        return num_a;
+        return MathImpl.Operator(num_a, num_b, (a, b) => a * b);
     }
 
     public static Divide(num_a: number[], num_b: number[]): number[]
     {
-        for (let i = 0; i < num_a.length; i++)
-        {
-            num_a[i] = num_a[i] / num_b[i];
-        }
-
-        return num_a;
+        return MathImpl.Operator(num_a, num_b, (a, b) => a / b);
     }
 
     public static Scale(num_a: number[], scale: number): number[]
@@ -173,14 +153,7 @@ export default class MathImpl
 
     public static Lerp(num_a: number[], num_b: number[], t: number): number[]
     {
-        let lerp = new Array<number>(num_a.length);
-
-        for (let i = 0; i < lerp.length; i++)
-        {
-            lerp[i] = (num_b[i] - num_a[i]) * t; 
-        }
-        
-        return lerp;
+        return MathImpl.Operator(num_a, num_b, (a, b) => (b - a) * t);
     }
 
     public static Distance(num_a: number[], num_b: number[]): number
@@ -194,10 +167,10 @@ export default class MathImpl
         for(let i = 0; i < num_a.length; i++)
         {
             let diff = num_b[i] - num_a[i];
-            result = result + (diff * diff);
+            result += (diff * diff);
         }
 
-        return result;
+        return Math.sqrt(result);
     }
 
     //TODO: when Quaternion is implemented
@@ -205,4 +178,17 @@ export default class MathImpl
     // {
 
     // }
+
+    /**
+     * Helper function for looping arrays
+     */
+    private static Operator(num_a: number[], num_b: number[], operator: Function): number[]
+    {
+        for (let i = 0; i < num_a.length; i++)
+        {
+            num_a[i] = operator(num_a[i], num_b[i]);
+        }
+
+        return num_a;
+    }
 }

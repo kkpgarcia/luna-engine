@@ -10,8 +10,15 @@
   "scripts": {
     "build": "tsc",
     "deploy": "npm publish --registry http://localhost:4873",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx jest"
   },
   "author": "Kyle Garcia - kkpgarcia@gmail.com",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.3",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.5"
+  }
 }

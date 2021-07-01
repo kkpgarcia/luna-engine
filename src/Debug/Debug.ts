@@ -21,7 +21,8 @@ export default class Debug
 
     public static Error(message: any): void
     {
-        Debug.SendMessage(message, DebugType.ERROR);
+        //Debug.SendMessage(message, DebugType.ERROR);
+        throw Error("ERROR: " + message);
     }
 
     private static SendMessage(message: any, type: DebugType): void
