@@ -76,7 +76,7 @@ export default class Shader
         gl.useProgram(null);
     }
 
-    public SetUnitform1i(name: string, data: number): void
+    public SetUniform1i(name: string, data: number): void
     {
         const gl = RenderingContext.instance.gl;
         gl.uniform1i(this.GetUniformLocation(name), data);
