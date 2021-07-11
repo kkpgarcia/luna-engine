@@ -1,4 +1,5 @@
 import Debug from "../Debug/Debug";
+import AppCache, { CacheType } from "../Util/AppCache";
 import RenderingContext from "./RenderingContext";
 
 export default class Shader
@@ -6,33 +7,14 @@ export default class Shader
     private _shader: WebGLProgram;
     private _uniformLocationCache: Map<string, WebGLUniformLocation>;
 
-    constructor(filePath?: string)
+    constructor(filePath: string)
     {
-        const vertCode = 
-        `#version 300 es
-        in vec4 a_position;
-         
-        void main() 
-        {
-            gl_Position = a_position;    
-        }
-        `
-        const fragCode = 
-        `#version 300 es
-        precision highp float;
+        const source = this.ParseShader(AppCache.instance.GetShader(filePath));
 
-        uniform vec4 u_Color;
-
-        out vec4 color;
-
-        void main() 
-        {
-            color = u_Color;   
-        }
-        `;
-        this._shader = this.CreateProgram(vertCode, fragCode);
-    
+        this._shader = this.CreateProgram(source[0], source[1]);
         this._uniformLocationCache = new Map<string, WebGLUniformLocation>();
+
+        AppCache.instance.DisposeKey(CacheType.SHADER, filePath);
     }
 
     private CreateProgram(vertexSource: string, fragmentSource: string): WebGLProgram
@@ -107,5 +89,30 @@ export default class Shader
         this._uniformLocationCache.set(name, location);
 
         return location;
+    }
+
+    private ParseShader(src: string): string[]
+    {
+       const lines = src.match(/[^\r\n]+/g);
+       const shaders: string[] = ['', ''];
+       let shaderIdx = 0;
+
+       for (let i = 0; i < lines.length; i++)
+       {
+            const line = lines[i];
+
+            console.log(line);
+            
+            if (line === "#vertex")
+            {
+                shaderIdx++;
+            }
+            else
+            {
+                shaders[shaderIdx] += line + ' ';
+            }
+       }
+
+       return shaders;
     }
 }

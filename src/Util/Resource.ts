@@ -1,73 +1,41 @@
- import { IFileSystem } from "./File System/IFileSystem";
- import { AndroidFileSystem } from "./File System/AndroidFileSystem";
- import { WebFileSystem } from "./File System/WebFileSystem";
+import WebFileSystem from "./WebFileSystem";
+import IFileSystem from "./IFileSystem";
 
- export default class Resource
- {
+export default class Resource
+{
     private static _instance: Resource;
     public static get instance(): Resource
     {
         if (!this._instance)
         {
-            this._instance = new Resource;
+            this._instance = new Resource();
         }
 
         return this._instance;
     }
 
     private _fileSystem: IFileSystem;
-    private _platform: string;
-    // private _http: HttpClient;
 
     constructor()
     {
-        this.PlatformCheck();
+        this.Init();
     }
 
-    public Init(): void
+    private Init(): void
     {
-        this._fileSystem.Init();
+        this._fileSystem = new WebFileSystem();
     }
 
     public GetText(dir: string, fileName: string): string
     {
-        let retVal = "";
-        this._fileSystem.Read()
-            .then(onFullfilled => {
-                retVal = onFullfilled;
-            })
-
-        return retVal;
+        let retval = "";
+        this._fileSystem.Read<string>(dir + fileName, 
+            (data: string) => {
+                retval = data;
+            },
+            (error: any) => {
+                throw new Error(error);
+            });
+        return retval;
     }
-
-    public async GetShader(shaderName: string): Promise<string>
-    {
-        return new Promise((resolve, reject) =>
-        {
-            
-        })
-    }
-
-    private PlatformCheck(): void
-    {
-        // this._platform = Capacitor.getPlatform();
-
-        // console.log(this._platform);
-
-        // switch(this._platform)
-        // {
-        //     case "ios":
-        //     case "android":
-        //         this._fileSystem = new AndroidFileSystem();
-        //         break;
-        //     default:
-        //         {
-        //             console.log("Creating file system for web.");
-        //             this._fileSystem = new WebFileSystem();
-        //         }
-        //         //TODO: Use fs system instead?
-        //         break;
-        // }
-    }
- }
-
+}
