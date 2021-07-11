@@ -103,13 +103,13 @@ export default class Shader
 
             console.log(line);
             
-            if (line === "#vertex")
+            if (line === "#vertex" || line === "#fragment")
             {
                 shaderIdx++;
             }
             else
             {
-                shaders[shaderIdx] += line + ' ';
+                shaders[shaderIdx] += line + '\n';
             }
        }
 
