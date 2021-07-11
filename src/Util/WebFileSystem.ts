@@ -2,24 +2,9 @@ import IFileSystem from "./IFileSystem";
 
 export default class WebFileSystem implements IFileSystem
 {
-    public Read<T>(path: string, onFinish: Function, onError: Function): void
+    public async Read(dir: string): Promise<Blob>
     {
-        fetch(path)
-            .then((value: Response) => value.text())
-            .then((data: string) => {
-                console.log(data);
-                if (onFinish)
-                {
-                    onFinish(data);
-                }
-            })
-            .catch((reason: any) => {
-                console.log(reason);
-                if (onError)
-                {
-                    onError(reason);
-                }
-            });
+        return await fetch(dir).then((response: Response) => response.blob());
     }
 
     public Write<T>(path: string, data: T, onFinish: Function, onError: Function): void

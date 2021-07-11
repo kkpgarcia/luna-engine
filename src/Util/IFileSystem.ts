@@ -1,5 +1,5 @@
 export default interface IFileSystem
 {
-    Read<T>(path: string, onFinish: Function, onError: Function): void;
-    Write<T>(path: string, data: T, onFinish: Function, onError: Function): void;
+    Read(dir: string): Promise<Blob>
+    Write<T>(dir: string, data: T, onFinish: Function, onError: Function): void;
 }

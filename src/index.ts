@@ -13,6 +13,7 @@ import ArrayEx from "./Util/ArrayEx";
 import Resource from "./Util/Resource";
 import RenderingContext from "./Renderer/RenderingContext";
 import Renderer from "./Renderer/Renderer";
+import AppCache, { CacheType } from "./Util/AppCache";
 
 export 
 {
@@ -27,8 +28,10 @@ export
     VertexBufferElement, VertexBuffer, VertexBufferLayout, IndexBuffer,
     Shader,
     VertexArray,
-    ArrayEx,
+    AppCache,
+    CacheType,
     Resource,
     RenderingContext,
-    Renderer
+    Renderer,
+    ArrayEx
 }

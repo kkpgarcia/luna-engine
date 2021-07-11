@@ -26,16 +26,31 @@ export default class Resource
         this._fileSystem = new WebFileSystem();
     }
 
-    public GetText(dir: string, fileName: string): string
+    public GetText(dir: string, fileName: string, onLoad: Function, onError?: Function): void
     {
-        let retval = "";
-        this._fileSystem.Read<string>(dir + fileName, 
-            (data: string) => {
-                retval = data;
-            },
-            (error: any) => {
-                throw new Error(error);
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            onLoad ? onLoad(reader.result) : () => {};
+        }
+
+        this._fileSystem.Read(dir + fileName)
+            .then((blob: Blob) => {
+                reader.readAsText(blob);
+            })
+            .catch((reason: any) => {
+                onError ? onError(reason) : () => {};
             });
-        return retval;
+    }
+
+    public GetImage(dir: string, fileName: string, onLoad: Function, onError?: Function): void
+    {
+        let image = new Image();
+
+        image.onload = () => {
+            onLoad ? onLoad(image) : () => {};
+        }
+
+        image.src = dir + fileName;
     }
 }
